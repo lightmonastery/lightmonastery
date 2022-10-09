@@ -1,0 +1,209 @@
+ipchains - formatul unei linii logate
+
+May 12 04:09:11 gush kernel: Packet log: input DENY eth0 PROTO=6 1.2.3.4:1201 6.7.8.9:113 
+L=60 S=0x00 I=7178 F=0x4000 T=50 SYN (#611)
+
+Campurile:
+- "May 12 04:09:11" - data
+- "gush" - numele calculatorului meu
+- "Packet log: input" - numele chainului care era traversta de catre pachet
+- "DENY" - actiunea care a avut loc. DENY/REJECT etc...
+- "eth0" - numele interfetei prin care trecea pachetul
+- "PROTO=6" - tipul protocolului. Cele mai folosite 6=tcp, 17=udp, 1=icmp. 
+   Lista protocoalelor completa e deobicei in /etc/protocols
+- "1.2.3.4:1201" - Adresa IP si portul de unde a plecat pachetul
+- "6.7.8.9:113" - Adresa IP si portul unde trebuia sa ajunga pachetul
+- "L=60" - Lungimea pachetului in bytes
+- "S=0x00" - TOS(type of service)
+- "I=7178" - ID-ul pachetului
+- "F=0x4000" - Flag-urile(3biti) si offset-ul fragmentului(13 biti)
+- "T=50" - TTL-ul(time to live) pachetului / numarul de hop-uri dupa care se va renunta 
+  la rutarea pachetului
+- "SYN" - Pachetul avea SYN-ul setat. Poate fi gen URG/ACK/PSH/RST/SYN/FIN
+- "(#611)" - numarul regulii din firewall care s-a aplicat pachetului
+
+Lista cu porturile destinatie tcp/udp e deobicei in /etc/services.
+Pentru tipurile de pachete icmp si codurile aferente listele urmatoare:
+
+Tipuri ICMP:
+----------------------------------------------------------------
+  0	Echo Reply				 [RFC792]
+  1	Unassigned				    [JBP]
+  2	Unassigned				    [JBP]
+  3	Destination Unreachable			 [RFC792]
+  4	Source Quench			 	 [RFC792]
+  5	Redirect				 [RFC792]
+  6	Alternate Host Address			    [JBP]
+  7	Unassigned				    [JBP]
+  8	Echo					 [RFC792]
+  9	Router Advertisement			[RFC1256]
+ 10	Router Solicitation			[RFC1256]
+ 11	Time Exceeded				 [RFC792]
+ 12	Parameter Problem			 [RFC792]
+ 13	Timestamp				 [RFC792]
+ 14	Timestamp Reply				 [RFC792]
+ 15	Information Request			 [RFC792]
+ 16	Information Reply			 [RFC792]
+ 17	Address Mask Request                     [RFC950]
+ 18	Address Mask Reply			 [RFC950]
+ 19	Reserved (for Security)			   [Solo]
+ 20-29	Reserved (for Robustness Experiment)	    [ZSu]
+ 30	Traceroute				[RFC1393]
+ 31	Datagram Conversion Error		[RFC1475]
+ 32     Mobile Host Redirect              [David Johnson]
+ 33     IPv6 Where-Are-You                 [Bill Simpson]
+ 34     IPv6 I-Am-Here                     [Bill Simpson]
+ 35     Mobile Registration Request        [Bill Simpson]
+ 36     Mobile Registration Reply          [Bill Simpson]
+ 37     Domain Name Request                     [Simpson]
+ 38     Domain Name Reply                       [Simpson]
+ 39     SKIP                                    [Markson]
+ 40     Photuris                                [RFC2521]
+ 41-255 Reserved				    [JBP]
+----------------------------------------------------------------
+
+
+Tipuri si codurile aferente ICMP:
+----------------------------------------------------------------
+  0     Echo Reply                               [RFC792]
+
+        Codes
+            0  No Code
+
+  1     Unassigned                                  [JBP]
+
+  2     Unassigned                                  [JBP]
+
+  3     Destination Unreachable                  [RFC792]
+
+	Codes
+	    0  Net Unreachable
+	    1  Host Unreachable
+            2  Protocol Unreachable
+            3  Port Unreachable
+            4  Fragmentation Needed and Don't Fragment was Set
+            5  Source Route Failed
+            6  Destination Network Unknown
+            7  Destination Host Unknown
+            8  Source Host Isolated
+            9  Communication with Destination Network is
+               Administratively Prohibited
+           10  Communication with Destination Host is
+               Administratively Prohibited
+           11  Destination Network Unreachable for Type of Service
+           12  Destination Host Unreachable for Type of Service
+           13  Communication Administratively Prohibited      [RFC1812]
+           14  Host Precedence Violation                      [RFC1812]
+           15  Precedence cutoff in effect                    [RFC1812]
+
+
+  4     Source Quench                            [RFC792]
+        Codes
+            0  No Code
+
+  5     Redirect                                 [RFC792]
+
+        Codes
+            0  Redirect Datagram for the Network (or subnet)
+            1  Redirect Datagram for the Host
+            2  Redirect Datagram for the Type of Service and Network
+            3  Redirect Datagram for the Type of Service and Host
+
+  6     Alternate Host Address                      [JBP]
+
+        Codes
+            0  Alternate Address for Host
+
+  7     Unassigned                                  [JBP]
+
+  8     Echo                                     [RFC792]
+
+        Codes
+            0  No Code
+
+  9     Router Advertisement                    [RFC1256]
+
+        Codes
+            0  Normal router advertisement      
+           16  Does not route common traffic    [RFC2002]
+
+
+ 10     Router Selection                        [RFC1256]
+
+        Codes
+            0  No Code
+
+ 11     Time Exceeded                            [RFC792]
+
+        Codes
+            0  Time to Live exceeded in Transit
+            1  Fragment Reassembly Time Exceeded
+
+ 12     Parameter Problem                        [RFC792]
+
+        Codes
+            0  Pointer indicates the error
+            1  Missing a Required Option        [RFC1108]
+            2  Bad Length
+
+
+ 13     Timestamp                                [RFC792]
+
+        Codes
+            0  No Code
+
+ 14     Timestamp Reply                          [RFC792]
+
+        Codes
+            0  No Code
+
+ 15     Information Request                      [RFC792]
+
+        Codes
+            0  No Code
+
+ 16     Information Reply                        [RFC792]
+
+        Codes
+            0  No Code
+
+ 17     Address Mask Request                     [RFC950]
+
+        Codes
+            0  No Code
+
+ 18     Address Mask Reply                       [RFC950]
+
+        Codes
+            0  No Code
+
+ 19     Reserved (for Security)                    [Solo]
+
+ 20-29  Reserved (for Robustness Experiment)        [ZSu]
+
+ 30     Traceroute                              [RFC1393]
+
+ 31     Datagram Conversion Error               [RFC1475]
+
+ 32     Mobile Host Redirect              [David Johnson]
+
+ 33     IPv6 Where-Are-You                 [Bill Simpson]
+
+ 34     IPv6 I-Am-Here                     [Bill Simpson]
+
+ 35     Mobile Registration Request        [Bill Simpson]
+
+ 36     Mobile Registration Reply          [Bill Simpson]
+
+ 39     SKIP                                    [Markson]
+
+ 40     Photuris                                [RFC2521]
+
+	Codes
+            0 = Bad SPI
+            1 = Authentication Failed
+            2 = Decompression Failed
+            3 = Decryption Failed
+            4 = Need Authentication
+            
+
